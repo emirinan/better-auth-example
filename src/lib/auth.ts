@@ -76,6 +76,11 @@ export const auth = betterAuth({
       }
     }),
   },
+  trustedOrigins: [
+    "http://better-auth-example-one.vercel.app",
+    "https://better-auth-example-one.vercel.app",
+    "*.better-auth-example-one.vercel.app",
+  ],
 });
 
 export type Session = typeof auth.$Infer.Session;
