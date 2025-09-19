@@ -185,7 +185,7 @@ export function SignInForm() {
               Login
               {lastMethod === "email" && (
                 <Badge
-                  className="absolute -top-2 -right-2 text-[10px]"
+                  className="absolute -top-2 -right-2 text-[9px]"
                   variant="secondary"
                 >
                   Last used
@@ -204,7 +204,7 @@ export function SignInForm() {
                 <GoogleIcon width="0.98em" height="1em" />
                 Sign in with Google
                 {lastMethod === "google" && (
-                  <Badge className="absolute -top-2 -right-2 text-[10px]">
+                  <Badge className="absolute -top-2 -right-2 text-[9px]">
                     Last used
                   </Badge>
                 )}
@@ -220,7 +220,7 @@ export function SignInForm() {
                 <GitHubIcon />
                 Sign in with Github
                 {lastMethod === "github" && (
-                  <Badge className="absolute -top-2 -right-2 text-[10px]">
+                  <Badge className="absolute -top-2 -right-2 text-[9px]">
                     Last used
                   </Badge>
                 )}
