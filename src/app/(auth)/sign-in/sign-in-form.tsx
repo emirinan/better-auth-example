@@ -4,6 +4,7 @@ import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { GoogleIcon } from "@/components/icons/GoogleIcon";
 import { LoadingButton } from "@/components/loading-button";
 import { PasswordInput } from "@/components/password-input";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -27,7 +28,7 @@ import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -41,6 +42,7 @@ const signInSchema = z.object({
 type SignInValues = z.infer<typeof signInSchema>;
 
 export function SignInForm() {
+  const [lastMethod, setLastMethod] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -57,6 +59,10 @@ export function SignInForm() {
       rememberMe: false,
     },
   });
+
+  useEffect(() => {
+    setLastMethod(authClient.getLastUsedLoginMethod());
+  }, []);
 
   async function onSubmit({ email, password, rememberMe }: SignInValues) {
     setError(null);
@@ -171,31 +177,53 @@ export function SignInForm() {
               </div>
             )}
 
-            <LoadingButton type="submit" className="w-full" loading={loading}>
+            <LoadingButton
+              type="submit"
+              className="relative w-full"
+              loading={loading}
+            >
               Login
+              {lastMethod === "email" && (
+                <Badge
+                  className="absolute -top-2 -right-2 text-[10px]"
+                  variant="secondary"
+                >
+                  Last used
+                </Badge>
+              )}
             </LoadingButton>
 
             <div className="flex w-full flex-col items-center justify-between gap-2">
               <Button
                 type="button"
                 variant="outline"
-                className="w-full gap-2"
+                className="relative w-full gap-2"
                 disabled={loading}
                 onClick={() => handleSocialSignIn("google")}
               >
                 <GoogleIcon width="0.98em" height="1em" />
                 Sign in with Google
+                {lastMethod === "google" && (
+                  <Badge className="absolute -top-2 -right-2 text-[10px]">
+                    Last used
+                  </Badge>
+                )}
               </Button>
 
               <Button
                 type="button"
                 variant="outline"
-                className="w-full gap-2"
+                className="relative w-full gap-2"
                 disabled={loading}
                 onClick={() => handleSocialSignIn("github")}
               >
                 <GitHubIcon />
                 Sign in with Github
+                {lastMethod === "github" && (
+                  <Badge className="absolute -top-2 -right-2 text-[10px]">
+                    Last used
+                  </Badge>
+                )}
               </Button>
             </div>
           </form>

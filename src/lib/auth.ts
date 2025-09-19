@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { lastLoginMethod } from "better-auth/plugins";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError, createAuthMiddleware } from "better-auth/api";
 import { sendEmail } from "./email";
@@ -81,6 +82,7 @@ export const auth = betterAuth({
     "https://better-auth-example-one.vercel.app",
     "*.better-auth-example-one.vercel.app",
   ],
+  plugins: [lastLoginMethod()],
 });
 
 export type Session = typeof auth.$Infer.Session;
