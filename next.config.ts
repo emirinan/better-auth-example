@@ -4,9 +4,6 @@ const nextConfig: NextConfig = {
   experimental: {
     authInterrupts: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   images: {
     remotePatterns: [
       {
